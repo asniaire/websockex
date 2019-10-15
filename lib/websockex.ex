@@ -458,10 +458,12 @@ defmodule WebSockex do
 
   defp websocket_loop(parent, debug, state) do
     Logger.info(inspect(state))
+    Logger.info(state.buffer)
     case WebSockex.Frame.parse_frame(state.buffer) do
       {:ok, frame, buffer} ->
         handle_frame(frame, parent, debug, %{state | buffer: buffer})
       :incomplete ->
+        Logger.info("Incomplete fragment")
         transport = state.conn.transport
         socket = state.conn.socket
         receive do
