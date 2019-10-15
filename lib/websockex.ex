@@ -1,6 +1,8 @@
 defmodule WebSockex do
   @handshake_guid "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
+  require Logger
+
   @moduledoc ~S"""
   A client handles negotiating the connection, then sending frames, receiving
   frames, closing, and reconnecting that connection.
@@ -455,6 +457,7 @@ defmodule WebSockex do
   end
 
   defp websocket_loop(parent, debug, state) do
+    Logger.info(state.buffer)
     case WebSockex.Frame.parse_frame(state.buffer) do
       {:ok, frame, buffer} ->
         handle_frame(frame, parent, debug, %{state | buffer: buffer})
