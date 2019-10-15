@@ -457,7 +457,7 @@ defmodule WebSockex do
   end
 
   defp websocket_loop(parent, debug, state) do
-    Logger.info(state.buffer)
+    Logger.info(inspect(state))
     case WebSockex.Frame.parse_frame(state.buffer) do
       {:ok, frame, buffer} ->
         handle_frame(frame, parent, debug, %{state | buffer: buffer})
